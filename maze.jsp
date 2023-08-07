@@ -11,6 +11,9 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+    audio {
+		display: none;  /* 배경음악 재생바 숨김 */
+	}
     .player {
         position: absolute;
         height: 70px;
@@ -56,7 +59,10 @@
 </style>
 </head>
 <body>
-    <h1> </h1>
+    <audio autoplay loop controls="false">
+        <source src="playing.mp3" type="audio/mpeg">
+    </audio>
+
         <div id="player" class="player"></div>
         <!-- item_snow -->
         <div class="item_snow" id="snow1" style="left: 55px; top: 480px;"></div>
@@ -141,6 +147,7 @@
                     lastEatenElement.classList.add('item_noteaten');
                 }else {
                 	alert('Finish!');
+                    window.location.href = 'FinalPage.jsp';
                 }
             }
         }
@@ -156,8 +163,53 @@
         let playerX = 313;
         let playerY = 80;
 
+    // 플레이어가 이동할 수 없는 구역 정의
+        const forbiddenAreas = [
+            { x: 0, y: 0, width: 300, height: 230 }, 
+            { x: 0, y: 230, width: 180, height: 60 },
+            { x: 0, y: 290, width: 30, height: 510 },
+            { x: 30, y: 550, width: 390, height: 230 }, 
+            { x: 135, y: 370, width: 50, height: 105 },  
+            { x: 180, y: 420, width: 150, height: 45 },  
+            { x: 290, y: 0, width: 90, height: 70 },
+            { x: 400, y: 0, width: 820, height: 190 },   
+            { x: 400, y: 190, width: 200, height: 40 }, 
+            { x: 530, y: 230, width: 80, height: 50 },  
+            { x: 870, y: 190, width: 350, height: 60 }, 
+            { x: 280, y: 310, width: 150, height: 40 },  
+            { x: 525, y: 365, width: 75, height: 210 },  
+            { x: 425, y: 430, width: 90, height: 40 },  
+            { x: 525, y: 670, width: 70, height: 30 }, 
+            { x: 420, y: 770, width: 780, height: 20 },  
+            { x: 710, y: 270, width: 60, height: 100 },  
+            { x: 770, y: 330, width: 90, height: 40 },  
+            { x: 970, y: 250, width: 250, height: 330 }, 
+            { x: 710, y: 450, width: 10, height: 327 },
+            { x: 810, y: 455, width: 45, height: 45 },  
+            { x: 810, y: 490, width: 0.2, height: 200 },  
+            { x: 815, y: 660, width: 200, height: 35 },  
+            { x: 895, y: 580, width: 70, height: 0.5 },  
+            { x: 1115, y: 580, width: 95, height: 110 }  
+        ];
+
+        // 임시로 벽과 충돌하는지 확인하는 함수
+        function checkCollision(newX, newY) {
+            // 플레이어가 새로운 위치로 이동할 때, 각 구역과의 충돌을 확인
+            for (const area of forbiddenAreas) {
+                if (
+                    newX + playerSize.width > area.x &&
+                    newX < area.x + area.width &&
+                    newY + playerSize.height > area.y &&
+                    newY < area.y + area.height
+                ) {
+                    return true; // 충돌 발생
+                }
+            }
+            return false; // 충돌 없음
+        }
+
      // 방향키 입력 처리 함수
-        function handleKeyPress(event) {
+     function handleKeyPress(event) {
          let dx = 0;
           let dy = 0;
           
@@ -169,22 +221,22 @@
           // 화면을 넘어가지 않도록 위치를 제한
           let newX = playerX + dx;
           let newY = playerY + dy;
-          if (newX < 0 || newX > 1200 - 65) dx = 0; // 캐릭터의 너비를 고려해야 합니다.
-          if (newY < 0 || newY > 800 - 80) dy = 0; // 캐릭터의 높이를 고려해야 합니다.
 
-          playerX += dx;
-          playerY += dy;
+          // 충돌 판정
+          if (!checkCollision(newX, newY)) {
+                playerX = newX;
+                playerY = newY;
 
-          player.style.left = playerX + "px";
-          player.style.top = playerY + "px";
+                player.style.left = playerX + "px";
+                player.style.top = playerY + "px";
          
 
-          // 플레이어의 현재 위치와 도착점 간의 거리가 70px 이하가 되면 게임이 끝나도록 수정
-             function isFinished(x, y) {
-                 let dx = finishPoint.x - x;
-                 let dy = finishPoint.y - y;
-                 return Math.sqrt(dx * dx + dy * dy) <= 70;
-             }
+              // 플레이어의 현재 위치와 도착점 간의 거리가 70px 이하가 되면 게임이 끝나도록 수정
+               function isFinished(x, y) {
+                  let dx = finishPoint.x - x;
+                  let dy = finishPoint.y - y;
+                  return Math.sqrt(dx * dx + dy * dy) <= 70;
+               }
              
              // 눈과 해의 충돌을 확인하는 함수를 호출합니다.
              checkSnowCollision(playerX, playerY);
@@ -194,6 +246,7 @@
                 alert('Finish!');
                 window.location.href = 'FinalPage.jsp';
             }
+           }    
         }
         
      // 키 입력 이벤트 리스너 등록
