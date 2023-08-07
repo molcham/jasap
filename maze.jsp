@@ -6,11 +6,7 @@
 <meta charset="UTF-8">
 <title>Maze Game</title>
 <style>
-    #game-board {
-        position: relative;
-        height: 800px;
-        width: 1200px;
-        border: 1px solid black;
+    body {
         background-image: url("images/maze.png");
         background-repeat: no-repeat;
         background-size: cover;
@@ -61,7 +57,6 @@
 </head>
 <body>
     <h1> </h1>
-    <div id="game-board">
         <div id="player" class="player"></div>
         <!-- item_snow -->
         <div class="item_snow" id="snow1" style="left: 55px; top: 480px;"></div>
