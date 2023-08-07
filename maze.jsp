@@ -197,6 +197,7 @@
 
             if (isFinished(playerX, playerY)) {
                 alert('Finish!');
+                window.location.href = 'FinalPage.jsp';
             }
         }
         
