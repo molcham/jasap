@@ -187,7 +187,7 @@
             { x: 710, y: 450, width: 10, height: 327 },
             { x: 810, y: 455, width: 45, height: 45 },  
             { x: 810, y: 490, width: 0.2, height: 200 },  
-            { x: 815, y: 660, width: 200, height: 35 },  
+            { x: 815, y: 660, width: 200, height: 30 },  
             { x: 895, y: 580, width: 70, height: 0.5 },  
             { x: 1115, y: 580, width: 95, height: 110 }  
         ];
