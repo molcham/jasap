@@ -11,28 +11,28 @@ public class UserDAO {
     Connection conn = DatabaseUtil.getConnection();
 
     public int join(String studentID, String nickname) {
-        String SQL = "INSERT INTO users VALUES (?, ?)";
+        String SQL = "INSERT INTO users (studentID, nickname) VALUES (?, ?)";
         try {
-            // °¢°¢ÀÇ µ¥ÀÌÅÍ¸¦ ½ÇÁ¦·Î ³Ö¾îÁØ´Ù.
+            // ê°ê°ì˜ ë°ì´í„°ë¥¼ ì‹¤ì œë¡œ ë„£ì–´ì¤€ë‹¤.
             PreparedStatement pstmt = conn.prepareStatement(SQL);
 
-            // Äõ¸®¹®ÀÇ ?¾È¿¡ °¢°¢ÀÇ µ¥ÀÌÅÍ¸¦ ³Ö¾îÁØ´Ù.
+            // ì¿¼ë¦¬ë¬¸ì˜ ?ì•ˆì— ê°ê°ì˜ ë°ì´í„°ë¥¼ ë„£ì–´ì¤€ë‹¤.
             pstmt.setString(1, studentID);
             pstmt.setString(2, nickname);
 
-            // ¸í·É¾î¸¦ ¼öÇàÇÑ °á°ú ¹İÈ¯, ¹İÈ¯°ª: insert°¡ µÈ µ¥ÀÌÅÍÀÇ °³¼ö
+            // ëª…ë ¹ì–´ë¥¼ ìˆ˜í–‰í•œ ê²°ê³¼ ë°˜í™˜, ë°˜í™˜ê°’: insertê°€ ëœ ë°ì´í„°ì˜ ê°œìˆ˜
             int affectedRows = pstmt.executeUpdate();
 
             if (affectedRows > 0) {
-                // µ¥ÀÌÅÍ »ğÀÔÀÌ ¼º°øÇÑ °æ¿ì
+                // ë°ì´í„° ì‚½ì…ì´ ì„±ê³µí•œ ê²½ìš°
                 return 1;
             } else {
-                // µ¥ÀÌÅÍ »ğÀÔÀÌ ½ÇÆĞÇÑ °æ¿ì
+                // ë°ì´í„° ì‚½ì…ì´ ì‹¤íŒ¨í•œ ê²½ìš°
                 return 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return -1; // ¿¹¿Ü ¹ß»ı ½Ã
+            return -1; // ì˜ˆì™¸ ë°œìƒ ì‹œ
         }
     }
 
