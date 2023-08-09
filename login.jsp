@@ -44,7 +44,7 @@
         flex-direction: column;
         align-items: center;
         position:absolute;
-        top:260px;
+        top:263px;
         left:370px;
         border: 2px solid #fff; /* 테두리 선 스타일 */
     }  
@@ -121,17 +121,34 @@
         function submitForm() {
             // 폼을 가져와서 수동으로 submit
             var form = document.getElementById("loginForm");
+            
+            
 
             // 폼 데이터를 서버로 전송
             var formData = new FormData(form);
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "loginProcess.jsp", true);
             xhr.send(formData);
-
-            // 이후 처리를 원하면 여기에 추가
-            window.location.href = "start_des.jsp";
+           
+            pop();
+           
         }
+        
     </script>
+    <script>
+      function pop(){
+    	  var studentID = document.getElementById("studentID").value;
+          
+          // 입력값을 새로운 변수에 저장하거나 다른 작업 수행
+          var newVariable = studentID;
+          alert("반갑습니다💙"+newVariable+"눈송이님❄️!!");
+           
+          window.location.href = "start_des.jsp";
+      }
+      
+    </script>
+    
+    
 </body>
 </html>
     
